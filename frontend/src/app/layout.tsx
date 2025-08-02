@@ -4,6 +4,7 @@ import {SpeedInsights} from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/next';
 
 import React from "react";
+import { ThemeProviderWrapper} from "@/app/components/ThemeProvider/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,11 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <SpeedInsights/>
         <Analytics />
-        {children}
+        <ThemeProviderWrapper >
+          {children}
+          </ThemeProviderWrapper>
       </body>
     </html>
   );
