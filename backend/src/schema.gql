@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  email: String!
+  role: Role!
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+type Query {
+  findAllUsers: [User!]!
+  getProfile: User!
+}
+
+type Mutation {
+  signup(createUserInput: CreateUserInput!): String!
+  login(email: String!, password: String!): String!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+}
