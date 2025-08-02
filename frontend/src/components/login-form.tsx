@@ -1,27 +1,20 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {useEffect, useState} from "react";
-import {authStateObserver, login, logout} from "@/app/lib/authService";
+import {cn} from "@/lib/utils"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 import {useGoogleLogin} from "@react-oauth/google";
 import {useRouter} from "next/navigation";
+import React from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [user, setUser] = useState(null);
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
 
   // useEffect(() => {
   //   const unsubscribe = authStateObserver(user);
@@ -47,9 +40,9 @@ export function LoginForm({
     flow: 'implicit',
   });
 
-  const handleLogout = async () => {
-    await logout();
-  };
+  // const handleLogout = async () => {
+  //   await logout();
+  // };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>

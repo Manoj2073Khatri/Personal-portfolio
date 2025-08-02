@@ -7,6 +7,7 @@ const Content = () => {
 
                 <div className="flex items-center gap-x-3">
                     <div className="shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img className="shrink-0 size-16 rounded-full"
                              src="https://images.unsplash.com/photo-1510706019500-d23a509eecd4?q=80&w=2667&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                              alt="Avatar"/>
@@ -88,6 +89,7 @@ const Content = () => {
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1656618724305-a4257e46e847?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -106,6 +108,7 @@ const Content = () => {
                         </a>
 
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1616427592793-67b858804534?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -124,6 +127,7 @@ const Content = () => {
                         </a>
 
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1516131206008-dd041a9764fd?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -142,6 +146,7 @@ const Content = () => {
                         </a>
 
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1707760696486-2a2cd7e0b6a6?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -160,6 +165,7 @@ const Content = () => {
                         </a>
 
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1585159812596-fac104f2f069?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -178,6 +184,7 @@ const Content = () => {
                         </a>
 
                         <a className="group block relative overflow-hidden rounded-lg" href="#">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800"
                                  src="https://images.unsplash.com/photo-1654131300276-db70adf4f85d?q=80&w=320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                  alt="Project"/>
@@ -209,10 +216,11 @@ const Content = () => {
                         <div className="sm:-ms-4 py-6 sm:px-4">
 
                             <blockquote>
-                                <span className="text-sm text-gray-800 dark:text-neutral-200">I'm absolutely floored by the level of care and attention to detail Eliana has put into this project and for one can guarantee that we will be a return customer.</span>
+                                <span className="text-sm text-gray-800 dark:text-neutral-200">I&#39;m absolutely floored by the level of care and attention to detail Eliana has put into this project and for one can guarantee that we will be a return customer.</span>
 
                                 <footer className="mt-3">
                                     <div className="flex items-center gap-x-2">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img className="shrink-0 size-5 rounded-full"
                                              src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
                                              alt="Avatar"/>
@@ -233,6 +241,7 @@ const Content = () => {
 
                                 <footer className="mt-3">
                                     <div className="flex items-center gap-x-2">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img className="shrink-0 size-5 rounded-full"
                                              src="https://images.unsplash.com/photo-1671726203390-cdc4354ee2eb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
                                              alt="Avatar"/>
@@ -561,8 +570,8 @@ const Content = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm text-gray-600 dark:text-neutral-400">
-                                    This is an excellent company and they reward their employees. It's becoming a big
-                                    company but it's still private, so the culture is as good as it gets at 1,000+
+                                    This is an excellent company and they reward their employees. It&#39;s becoming a big
+                                    company but it&#39;s still private, so the culture is as good as it gets at 1,000+
                                     employees if you ask me. Managers are still adapting to the growth I think, but
                                     everyone has to. Great place to work.
                                 </p>
@@ -572,6 +581,7 @@ const Content = () => {
                                     <a className="block border border-gray-200 rounded-lg hover:shadow-2xs focus:outline-hidden dark:border-neutral-700"
                                        href="#">
                                         <div className="relative flex items-center overflow-hidden">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 className="w-32 sm:w-48 h-full absolute inset-0 object-cover rounded-s-lg"
                                                 src="https://images.unsplash.com/photo-1661956600655-e772b2b97db4?q=80&w=560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -584,7 +594,7 @@ const Content = () => {
                                                     </h3>
                                                     <p className="mt-1 text-sm text-gray-500 dark:text-neutral-500">
                                                         Produce professional, reliable streams easily leveraging
-                                                        Mailchimp's innovative broadcast studio.
+                                                        Mailchimp&#39;s innovative broadcast studio.
                                                     </p>
                                                 </div>
                                             </div>
@@ -745,7 +755,7 @@ const Content = () => {
                             </h3>
 
                             <p className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                                Master's degree in Computer Software Engineering
+                                Master&#39;s degree in Computer Software Engineering
                             </p>
 
                             <p className="mt-1 text-sm text-gray-600 dark:text-neutral-400">
@@ -778,7 +788,7 @@ const Content = () => {
                             </h3>
 
                             <p className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                                Bachelor's degree in Computer Software Engineering
+                                Bachelor&#39;s degree in Computer Software Engineering
                             </p>
 
                             <p className="mt-1 text-sm text-gray-600 dark:text-neutral-400">
@@ -822,7 +832,7 @@ const Content = () => {
                             </h5>
                             <p className="mt-1 text-sm text-gray-500 dark:text-neutral-500">
                                 With the aim of optimizing customer interactions and boosting brand loyalty, the team at
-                                Preline leveraged Mailchimp's powerful tools and expertise to deliver exceptional
+                                Preline leveraged Mailchimp&#39;s powerful tools and expertise to deliver exceptional
                                 results.
                             </p>
                             <p className="mt-1">

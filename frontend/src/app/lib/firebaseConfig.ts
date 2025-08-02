@@ -1,7 +1,6 @@
 // lib/firebaseConfig.ts
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getAnalytics } from "firebase/analytics";
+import {getApp, getApps, initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
@@ -16,6 +15,6 @@ const firebaseConfig = {
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 
 export { auth, app };
