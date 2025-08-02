@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next';
 
 import React from "react";
 import { ThemeProviderWrapper} from "@/app/components/ThemeProvider/ThemeProvider";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +22,13 @@ export default function RootLayout({
       <body>
         <SpeedInsights/>
         <Analytics />
-        <ThemeProviderWrapper >
-          {children}
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_FIREBASE_CLIENT_ID!}>
+          <ThemeProviderWrapper >
+            {children}
           </ThemeProviderWrapper>
+        </GoogleOAuthProvider>;
+
+
       </body>
     </html>
   );
