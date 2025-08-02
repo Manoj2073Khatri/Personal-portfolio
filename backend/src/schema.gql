@@ -21,6 +21,8 @@ type Query {
 type Mutation {
   signup(createUserInput: CreateUserInput!): String!
   login(email: String!, password: String!): String!
+  refreshToken: String!
+  logout: Boolean!
 }
 
 input CreateUserInput {

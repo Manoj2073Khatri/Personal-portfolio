@@ -1,19 +1,25 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Res, Req, UnauthorizedException } from '@nestjs/common';
+import express from 'express';
+
 import { AuthService } from './auth.service';
-import { CreateUserInput } from '../user/dto/create-user.input';
 import { UserService } from '../user/user.service';
+import { CreateUserInput } from '../user/dto/create-user.input';
 
 @Resolver()
 export class AuthResolver {
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 
   @Mutation(() => String)
-  async signup(@Args('createUserInput') createUserInput: CreateUserInput) {
+  async signup(
+    @Args('createUserInput') createUserInput: CreateUserInput,
+    @Res({ passthrough: true }) res: express.Response,
+  ): Promise<string> {
     const user = await this.userService.create(createUserInput);
-    const { access_token } = await this.authService.login(user);
+    const { access_token } = await this.authService.login(user, res);
     return access_token;
   }
 
@@ -21,12 +27,37 @@ export class AuthResolver {
   async login(
     @Args('email') email: string,
     @Args('password') password: string,
-  ) {
+    @Res({ passthrough: true }) res: express.Response,
+  ): Promise<string> {
     const user = await this.authService.validateUser(email, password);
-    if (!user) {
-      throw new Error('Invalid credentials');
-    }
-    const { access_token } = await this.authService.login(user);
+    if (!user) throw new UnauthorizedException('Invalid credentials');
+
+    const { access_token } = await this.authService.login(user, res);
     return access_token;
+  }
+
+  @Mutation(() => String)
+  async refreshToken(
+    @Req() req: express.Request,
+    @Res({ passthrough: true }) res: express.Response,
+  ): Promise<string> {
+    const token = req.cookies?.['refresh_token'];
+    if (!token) throw new UnauthorizedException('No refresh token');
+
+    const payload = this.authService.verifyRefreshToken(token);
+    const user = await this.authService.validateRefreshToken(
+      payload.sub,
+      token,
+    );
+    if (!user) throw new UnauthorizedException('Invalid refresh token');
+
+    const { access_token } = await this.authService.login(user, res);
+    return access_token;
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Res({ passthrough: true }) res: express.Response): boolean {
+    res.clearCookie('refresh_token');
+    return true;
   }
 }
