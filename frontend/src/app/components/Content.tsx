@@ -63,7 +63,7 @@ const Content = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         <div className="group block relative overflow-hidden rounded-lg" >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                           <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.29.46_AM.png"/>
+                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.29.46_AM.png" />
                             <div className="absolute bottom-1 end-1 opacity-0 group-hover:opacity-100 transition">
                                 <div
                                     className="flex items-center gap-x-1 py-1 px-2 bg-white border border-gray-200 text-gray-800 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200">
@@ -80,7 +80,7 @@ const Content = () => {
 
                         <div className="group block relative overflow-hidden rounded-lg" >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.31.35_AM.png"/>
+                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.31.35_AM.png" />
                             <div className="absolute bottom-1 end-1 opacity-0 group-hover:opacity-100 transition">
                                 <div
                                     className="flex items-center gap-x-1 py-1 px-2 bg-white border border-gray-200 text-gray-800 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200">
@@ -97,7 +97,7 @@ const Content = () => {
 
                         <div className="group block relative overflow-hidden rounded-lg" >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                           <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.33.27_AM.png"/>
+                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.33.27_AM.png" />
                             <div className="absolute bottom-1 end-1 opacity-0 group-hover:opacity-100 transition">
                                 <div
                                     className="flex items-center gap-x-1 py-1 px-2 bg-white border border-gray-200 text-gray-800 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200">
@@ -107,14 +107,14 @@ const Content = () => {
                                         <circle cx="11" cy="11" r="8" />
                                         <path d="m21 21-4.3-4.3" />
                                     </svg>
-                                     <a href='https://policypowerhouse.com/holiday-let-insurance/'><span className="text-xs">View</span></a>
+                                    <a href='https://policypowerhouse.com/holiday-let-insurance/'><span className="text-xs">View</span></a>
                                 </div>
                             </div>
                         </div>
 
                         <div className="group block relative overflow-hidden rounded-lg" >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.38.22_AM.png"/>
+                            <img className="w-full size-40 object-cover bg-gray-100 rounded-lg dark:bg-neutral-800" height="164" width="347" alt="" src="https://d1m1s6un1a8qgj.cloudfront.net/media/portfolio_item_image/Screenshot_2025-06-26_at_12.38.22_AM.png" />
                             <div className="absolute bottom-1 end-1 opacity-0 group-hover:opacity-100 transition">
                                 <div
                                     className="flex items-center gap-x-1 py-1 px-2 bg-white border border-gray-200 text-gray-800 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200">
@@ -274,6 +274,7 @@ const Content = () => {
                             <div
                                 className="relative group-last:after:hidden after:absolute after:top-8 after:bottom-2 after:start-3 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
                                 <div className="relative z-10 size-6 flex justify-center items-center">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width="48" src="https://media.licdn.com/dms/image/v2/C4E0BAQF2DCBXgX7OnQ/company-logo_100_100/company-logo_100_100/0/1630609448998?e=1763596800&amp;v=beta&amp;t=84jAxIeVi5jygLVk7q8K5SH5PoSEU55jdPKNmJXEabc" loading="lazy" height="48" alt="AeriTech logo" id="ember1519" />
                                 </div>
                             </div>
@@ -304,6 +305,7 @@ const Content = () => {
                             <div
                                 className="relative group-last:after:hidden after:absolute after:top-8 after:bottom-2 after:start-3 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
                                 <div className="relative z-10 size-6 flex justify-center items-center">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width="48" src="https://media.licdn.com/dms/image/v2/C4D0BAQFRuifaqVCAog/company-logo_100_100/company-logo_100_100/0/1630492369958/labsvesuvio_logo?e=1763596800&amp;v=beta&amp;t=r7fO2h8U8XVns-TYsVtrWw0bFJCX1CG8KyRTMYrYTHk" loading="lazy" height="48" alt="Vesuvio Labs logo" id="ember1523" />
                                 </div>
                             </div>
@@ -333,6 +335,7 @@ const Content = () => {
                             <div
                                 className="relative group-last:after:hidden after:absolute after:top-8 after:bottom-2 after:start-3 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
                                 <div className="relative z-10 size-6 flex justify-center items-center">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width="48" src="https://media.licdn.com/dms/image/v2/C560BAQGe1SJezsZOUQ/company-logo_100_100/company-logo_100_100/0/1630668787104/medicosnpl_logo?e=1763596800&amp;v=beta&amp;t=RaIcdYpnkLHad9GvgJSnhLkECrSyhgAcCSRszoULVYA" loading="lazy" height="48" alt="Medicos International logo" id="ember1527" />
                                 </div>
                             </div>
@@ -373,7 +376,7 @@ const Content = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="p-4 border border-gray-200 rounded-lg dark:border-neutral-700">
-               
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="https://kec.edu.np/wp-content/uploads/2024/06/KEC-College-logo-2-1.png" alt="Kantipur engineering college" className="mb-3 shrink-0 w-12 h-12" />
                             <h3 className="mb-1 text-xs text-gray-600 dark:text-neutral-400">
                                 2016 - 2020
@@ -389,6 +392,7 @@ const Content = () => {
                         </div>
 
                         <div className="p-4 border border-gray-200 rounded-lg dark:border-neutral-700">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="https://wms.edigitalnepal.com/wms/files/ws-profile/1706026903084_997fc06b-a245-473c-a21f-7d2d1eaa2732.png" alt="Adarsh college " className="mb-3 shrink-0 w-12 h-12" />
 
                             <h3 className="mb-1 text-xs text-gray-600 dark:text-neutral-400">
@@ -404,6 +408,7 @@ const Content = () => {
                             </p>
                         </div>
                         <div className="p-4 border border-gray-200 rounded-lg dark:border-neutral-700">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="https://media.edusanjal.com/__sized__/logos/481013630_1365081934666013_4508007565349060233_n-thumbnail-200x200-70.jpg" alt="Adarsh college " className="mb-3 shrink-0 w-12 h-12" />
 
                             <h3 className="mb-1 text-xs text-gray-600 dark:text-neutral-400">
@@ -454,9 +459,9 @@ const Content = () => {
                                 Understanding Authentication and Authorization in Web Development
                             </h5>
                             <p className="mt-1 text-sm text-gray-500 dark:text-neutral-500">
-                                 A comprehensive guide to authentication and authorization mechanisms in web applications.
+                                A comprehensive guide to authentication and authorization mechanisms in web applications.
                             </p>
-                           
+
                             <p className="mt-1">
                                 <Link className="text-sm text-gray-500 underline hover:text-gray-800 hover:decoration-2 focus:outline-hidden focus:decoration-2 dark:text-neutral-500 dark:hover:text-neutral-400"
                                     href="/">
@@ -470,7 +475,7 @@ const Content = () => {
                                 2023
                             </p>
                             <h5 className="font-medium text-sm text-gray-800 dark:text-neutral-200">
-                               Clean Coding Architecture
+                                Clean Coding Architecture
                             </h5>
                             <p className="mt-1 text-sm text-gray-500 dark:text-neutral-500">
                                 Best practices and principles for writing clean, maintainable, and scalable code in software development.
