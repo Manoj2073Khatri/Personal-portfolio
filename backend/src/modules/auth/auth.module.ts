@@ -1,24 +1,15 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-
+import { UserModule } from '../user/user.module';
+import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
-import { UserModule } from '../user/user.module';
-import { AuthResolver } from './auth.resolver';
-import { getJwtSecret } from './auth.config';
 
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: getJwtSecret(),
-        signOptions: { expiresIn: '1h' },
-      }),
-    }),
-    UserModule,
-  ],
-  providers: [AuthService, JwtStrategy, AuthResolver],
+  // Secrets are passed per call (access vs refresh), so none is registered here.
+  imports: [PassportModule, JwtModule.register({}), UserModule],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

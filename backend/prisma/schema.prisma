@@ -1,29 +1,358 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma schema for the portfolio CMS. See docs/database.md for the model overview.
 
 generator client {
   provider = "prisma-client-js"
-  // output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  role      Role     @default(USER)
-  refreshToken  String?
-  createdAt DateTime @default(now())
-}
-
-
 enum Role {
   USER
   ADMIN
+}
+
+/// Shared lifecycle for every publishable content type.
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MediaKind {
+  IMAGE
+  DOCUMENT
+}
+
+enum MediaStatus {
+  PENDING
+  READY
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  FREELANCE
+  INTERNSHIP
+}
+
+enum CredentialKind {
+  EDUCATION
+  CERTIFICATION
+}
+
+enum SubmissionStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String?
+  password     String
+  role         Role      @default(USER)
+  /// SHA-256 of the current refresh token (see ADR 0002).
+  refreshToken String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  articles Article[]
+  media    Media[]
+}
+
+model Media {
+  id          String      @id @default(uuid())
+  kind        MediaKind
+  status      MediaStatus @default(PENDING)
+  /// S3 object key; null for externally hosted media.
+  storageKey  String?     @unique
+  /// HTTPS URL for externally hosted media; null for S3 media.
+  externalUrl String?
+  filename    String
+  mimeType    String
+  size        Int?
+  width       Int?
+  height      Int?
+  alt         String      @default("")
+  createdById String?
+  createdBy   User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Back-relations (used to block deletion of referenced media).
+  profileImageFor  SiteSettings[] @relation("SettingsProfileImage")
+  resumeFor        SiteSettings[] @relation("SettingsResume")
+  ogImageFor       SiteSettings[] @relation("SettingsOgImage")
+  projectThumbnail Project[]      @relation("ProjectThumbnail")
+  projectOgImage   Project[]      @relation("ProjectOgImage")
+  projectGallery   ProjectMedia[]
+  skillIcons       Skill[]
+  experienceLogos  Experience[]
+  credentialLogos  Credential[]
+  articleCovers    Article[]      @relation("ArticleCover")
+  articleOgImage   Article[]      @relation("ArticleOgImage")
+  testimonialAvatars Testimonial[]
+
+  @@index([kind, status, createdAt])
+}
+
+/// Singleton row (id = "default").
+model SiteSettings {
+  id               String   @id @default("default")
+  name             String
+  title            String
+  /// Short hero introduction (plain text).
+  intro            String   @default("")
+  /// Longer bio (Markdown).
+  bio              String   @default("")
+  email            String?
+  phone            String?
+  location         String?
+  resumeUrl        String?
+  /// [{ platform, label, url }]
+  socialLinks      Json     @default("[]")
+  /// [{ label, href }]
+  navigation       Json     @default("[]")
+  footerText       String   @default("")
+  /// [{ key, enabled }] in display order.
+  homepageSections Json     @default("[]")
+  seoTitle         String?
+  seoDescription   String?
+  siteUrl          String?
+
+  profileImageId String?
+  profileImage   Media?  @relation("SettingsProfileImage", fields: [profileImageId], references: [id], onDelete: SetNull)
+  resumeMediaId  String?
+  resumeMedia    Media?  @relation("SettingsResume", fields: [resumeMediaId], references: [id], onDelete: SetNull)
+  ogImageId      String?
+  ogImage        Media?  @relation("SettingsOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+
+  updatedById String?
+  updatedAt   DateTime @updatedAt
+}
+
+model SkillCategory {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  skills Skill[]
+}
+
+model Skill {
+  id          String        @id @default(uuid())
+  name        String
+  slug        String        @unique
+  /// Optional free-text label (e.g. "Daily use"); never a fabricated score.
+  proficiency String?
+  sortOrder   Int           @default(0)
+  status      ContentStatus @default(PUBLISHED)
+  categoryId  String
+  category    SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  iconId      String?
+  icon        Media?        @relation(fields: [iconId], references: [id], onDelete: Restrict)
+  createdById String?
+  updatedById String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  projects    ProjectSkill[]
+  experiences ExperienceSkill[]
+
+  @@index([status, categoryId, sortOrder])
+}
+
+model Project {
+  id             String        @id @default(uuid())
+  title          String
+  slug           String        @unique
+  summary        String        @default("")
+  /// Markdown.
+  body           String        @default("")
+  role           String?
+  liveUrl        String?
+  repoUrl        String?
+  startDate      DateTime?
+  endDate        DateTime?
+  featured       Boolean       @default(false)
+  sortOrder      Int           @default(0)
+  status         ContentStatus @default(DRAFT)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  /// Slugs this project was published under before; they 301 to the current slug.
+  previousSlugs  String[]      @default([])
+
+  thumbnailId String?
+  thumbnail   Media?  @relation("ProjectThumbnail", fields: [thumbnailId], references: [id], onDelete: Restrict)
+  ogImageId   String?
+  ogImage     Media?  @relation("ProjectOgImage", fields: [ogImageId], references: [id], onDelete: Restrict)
+
+  gallery ProjectMedia[]
+  skills  ProjectSkill[]
+
+  createdById String?
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, featured, sortOrder])
+}
+
+model ProjectMedia {
+  projectId String
+  mediaId   String
+  sortOrder Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+
+  @@id([projectId, mediaId])
+  @@index([mediaId])
+}
+
+model ProjectSkill {
+  projectId String
+  skillId   String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, skillId])
+  @@index([skillId])
+}
+
+model Experience {
+  id               String         @id @default(uuid())
+  company          String
+  companyUrl       String?
+  role             String
+  employmentType   EmploymentType @default(FULL_TIME)
+  location         String?
+  startDate        DateTime
+  endDate          DateTime?
+  isCurrent        Boolean        @default(false)
+  summary          String         @default("")
+  responsibilities String[]       @default([])
+  achievements     String[]       @default([])
+  sortOrder        Int            @default(0)
+  status           ContentStatus  @default(PUBLISHED)
+  logoId           String?
+  logo             Media?         @relation(fields: [logoId], references: [id], onDelete: Restrict)
+  skills           ExperienceSkill[]
+  createdById      String?
+  updatedById      String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+model ExperienceSkill {
+  experienceId String
+  skillId      String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  skill        Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([experienceId, skillId])
+  @@index([skillId])
+}
+
+/// Education entries and certifications share one table, split by `kind`.
+model Credential {
+  id            String         @id @default(uuid())
+  kind          CredentialKind
+  institution   String
+  title         String
+  field         String?
+  location      String?
+  startDate     DateTime?
+  endDate       DateTime?
+  credentialUrl String?
+  credentialId  String?
+  description   String         @default("")
+  sortOrder     Int            @default(0)
+  status        ContentStatus  @default(PUBLISHED)
+  logoId        String?
+  logo          Media?         @relation(fields: [logoId], references: [id], onDelete: Restrict)
+  createdById   String?
+  updatedById   String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([kind, status, sortOrder])
+}
+
+model Article {
+  id                 String        @id @default(uuid())
+  title              String
+  slug               String        @unique
+  excerpt            String        @default("")
+  /// Markdown.
+  body               String        @default("")
+  tags               String[]      @default([])
+  readingTimeMinutes Int           @default(1)
+  status             ContentStatus @default(DRAFT)
+  publishedAt        DateTime?
+  seoTitle           String?
+  seoDescription     String?
+  /// Set when the article was first published elsewhere; becomes rel=canonical.
+  canonicalUrl       String?
+  /// Excludes the article from search engines and the sitemap.
+  noIndex            Boolean       @default(false)
+  /// Slugs this article was published under before; they 301 to the current slug.
+  previousSlugs      String[]      @default([])
+
+  coverImageId String?
+  coverImage   Media?  @relation("ArticleCover", fields: [coverImageId], references: [id], onDelete: Restrict)
+  ogImageId    String?
+  ogImage      Media?  @relation("ArticleOgImage", fields: [ogImageId], references: [id], onDelete: Restrict)
+  authorId     String?
+  author       User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  createdById String?
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, publishedAt])
+}
+
+model Testimonial {
+  id            String        @id @default(uuid())
+  quote         String
+  authorName    String
+  authorTitle   String?
+  authorCompany String?
+  sortOrder     Int           @default(0)
+  status        ContentStatus @default(DRAFT)
+  avatarId      String?
+  avatar        Media?        @relation(fields: [avatarId], references: [id], onDelete: Restrict)
+  createdById   String?
+  updatedById   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+model ContactSubmission {
+  id        String           @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  status    SubmissionStatus @default(NEW)
+  /// Salted SHA-256 of the client IP; raw IPs are never stored.
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([status, createdAt])
 }

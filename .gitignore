@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+!.env.example
+
+# Markdown files (docs, CLAUDE.md, READMEs) are kept local
+*.md

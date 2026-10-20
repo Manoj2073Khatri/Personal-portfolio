@@ -1,52 +1,22 @@
 import { config } from 'dotenv';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import cookieParser from 'cookie-parser';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import helmet from 'helmet';
-
+// Load env before any module reads it. Real environment variables take precedence.
 config({ path: '.env.local', quiet: true });
+
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { AppModule } from './app.module';
+import { configureApp, setupSwagger } from './app.setup';
+import { APP_ENV, AppEnv } from './config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  // ✅ Middleware for cookie support
-  app.use(cookieParser());
+  const env = app.get<AppEnv>(APP_ENV);
 
-  app.enableCors({
-    origin: [
-      // 'http://localhost:3000', // frontend dev
-      'https://www.manoj-khatri.com.np', // frontend prod
-    ],
-    credentials: true,
-  });
+  configureApp(app, env);
+  if (env.swaggerEnabled) setupSwagger(app);
 
-  app.use(
-    helmet({
-      contentSecurityPolicy: false, // disable if needed, else configure properly
-    }),
-  );
-  // ✅ Swagger config
-  const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('API documentation for REST endpoints')
-    .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'Authorization',
-        description: 'Enter access token',
-        in: 'header',
-      },
-      'access-token', // Reference name
-    )
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document); // Accessible at /api/docs
-
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(env.port);
+  Logger.log(`API listening on port ${env.port}`, 'Bootstrap');
 }
 void bootstrap();

@@ -1,19 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { APP_ENV, type AppEnv } from '../../config/env';
+import { UserService } from '../user/user.service';
 import { AuthUser, JwtPayload } from './auth.types';
-import { getJwtSecret } from './auth.config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(
+    @Inject(APP_ENV) env: AppEnv,
+    private readonly userService: UserService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: getJwtSecret(),
+      secretOrKey: env.jwtSecret,
+      ignoreExpiration: false,
     });
   }
 
-  validate(payload: JwtPayload): AuthUser {
-    return { userId: payload.sub, email: payload.email, role: payload.role };
+  /** Re-reads the user so deleted or demoted accounts lose access immediately. */
+  async validate(payload: JwtPayload): Promise<AuthUser> {
+    if (payload.typ !== 'access')
+      throw new UnauthorizedException('Invalid token type');
+    const user = await this.userService.findById(payload.sub);
+    if (!user) throw new UnauthorizedException();
+    return { userId: user.id, email: user.email, role: user.role };
   }
 }

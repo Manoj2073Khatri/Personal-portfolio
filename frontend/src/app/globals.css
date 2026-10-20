@@ -8,6 +8,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-reading: var(--font-literata);
+  --color-highlight: var(--highlight);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -45,6 +47,8 @@
 
 :root {
   --radius: 0.625rem;
+  /* Signature accent: the yellow highlighter stroke from the site header. */
+  --highlight: oklch(0.852 0.199 91.936);
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
@@ -118,5 +122,164 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Public site typography. See docs/components.md ("Markdown").
+ * ------------------------------------------------------------------------- */
+
+::selection {
+  background: color-mix(in oklch, var(--highlight) 55%, transparent);
+  color: inherit;
+}
+
+/* Highlighter stroke under a heading or link, matching the header's active nav item. */
+.highlight-stroke {
+  background-image: linear-gradient(var(--highlight), var(--highlight));
+  background-repeat: no-repeat;
+  background-size: 100% 0.32em;
+  background-position: 0 88%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Compact Markdown: bios, project descriptions. Inherits the surrounding text size. */
+.prose-compact {
+  @apply text-sm text-gray-600 dark:text-neutral-400;
+}
+.prose-compact > * + * {
+  @apply mt-3;
+}
+.prose-compact strong {
+  @apply font-semibold text-gray-800 dark:text-neutral-200;
+}
+.prose-compact a {
+  @apply text-gray-800 underline decoration-highlight decoration-2 underline-offset-2 hover:decoration-4 dark:text-neutral-200;
+}
+.prose-compact ul {
+  @apply list-disc ps-5;
+}
+.prose-compact ol {
+  @apply list-decimal ps-5;
+}
+.prose-compact code {
+  @apply rounded bg-gray-100 px-1 py-0.5 font-mono text-[0.85em] dark:bg-neutral-800;
+}
+
+/* Long-form article body: reading face, generous measure and rhythm. */
+.prose-article {
+  @apply font-reading text-[1.0625rem] leading-[1.8] text-gray-700 sm:text-lg dark:text-neutral-300;
+  font-optical-sizing: auto;
+}
+.prose-article > * + * {
+  margin-top: 1.25em;
+}
+.prose-article h2,
+.prose-article h3,
+.prose-article h4 {
+  @apply font-sans font-semibold tracking-tight text-gray-900 dark:text-neutral-100;
+  margin-top: 2.2em;
+  scroll-margin-top: 5rem;
+}
+.prose-article h2 {
+  @apply text-2xl;
+}
+.prose-article h3 {
+  @apply text-xl;
+}
+.prose-article h4 {
+  @apply text-base uppercase tracking-wider text-gray-500 dark:text-neutral-400;
+}
+.prose-article h2 + *,
+.prose-article h3 + *,
+.prose-article h4 + * {
+  margin-top: 0.75em;
+}
+.prose-article a {
+  @apply text-gray-900 underline decoration-highlight decoration-2 underline-offset-[3px] transition-[text-decoration-thickness] hover:decoration-[0.35em] dark:text-neutral-100;
+}
+.prose-article strong {
+  @apply font-semibold text-gray-900 dark:text-neutral-100;
+}
+.prose-article ul,
+.prose-article ol {
+  @apply ps-6;
+}
+.prose-article ul {
+  list-style: none;
+}
+.prose-article ul > li {
+  position: relative;
+}
+.prose-article ul > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -1.1em;
+  top: 0.78em;
+  width: 0.45em;
+  height: 0.2em;
+  background: var(--highlight);
+  border-radius: 1px;
+}
+.prose-article ol {
+  @apply list-decimal marker:font-mono marker:text-sm marker:text-gray-400;
+}
+.prose-article li + li {
+  margin-top: 0.5em;
+}
+.prose-article blockquote {
+  @apply border-s-4 border-highlight ps-5 text-gray-600 italic dark:text-neutral-400;
+}
+.prose-article hr {
+  @apply mx-auto my-12 w-16 border-0 border-t-2 border-dashed border-gray-300 dark:border-neutral-700;
+}
+.prose-article :not(pre) > code {
+  @apply rounded-md bg-gray-100 px-1.5 py-0.5 font-mono text-[0.82em] text-gray-800 dark:bg-neutral-800 dark:text-neutral-200;
+}
+.prose-article pre {
+  @apply -mx-4 overflow-x-auto bg-neutral-900 px-5 py-4 font-mono text-[0.85rem] leading-relaxed text-neutral-100 sm:mx-0 sm:rounded-xl dark:bg-neutral-950 dark:ring-1 dark:ring-neutral-800;
+}
+.prose-article img {
+  @apply mx-auto rounded-xl border border-gray-200 dark:border-neutral-800;
+}
+.prose-article table {
+  @apply block w-full overflow-x-auto font-sans text-sm;
+  border-collapse: collapse;
+}
+.prose-article th,
+.prose-article td {
+  @apply border-b border-gray-200 px-3 py-2 text-start dark:border-neutral-800;
+}
+.prose-article th {
+  @apply font-semibold text-gray-900 dark:text-neutral-100;
+}
+
+/* Reading progress: a highlighter stroke that fills as the page scrolls.
+ * Pure CSS scroll-driven animation; hidden where unsupported or motion is reduced. */
+.reading-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 60;
+      height: 3px;
+      background: var(--highlight);
+      transform-origin: 0 50%;
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes reading-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
