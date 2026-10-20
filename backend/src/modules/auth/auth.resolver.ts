@@ -1,5 +1,5 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { Res, Req, UnauthorizedException } from '@nestjs/common';
+import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
+import { UnauthorizedException } from '@nestjs/common';
 import express from 'express';
 
 import { AuthService } from './auth.service';
@@ -16,7 +16,7 @@ export class AuthResolver {
   @Mutation(() => String)
   async signup(
     @Args('createUserInput') createUserInput: CreateUserInput,
-    @Res({ passthrough: true }) res: express.Response,
+    @Context('res') res: express.Response,
   ): Promise<string> {
     const user = await this.userService.create(createUserInput);
     const { access_token } = await this.authService.login(user, res);
@@ -27,7 +27,7 @@ export class AuthResolver {
   async login(
     @Args('email') email: string,
     @Args('password') password: string,
-    @Res({ passthrough: true }) res: express.Response,
+    @Context('res') res: express.Response,
   ): Promise<string> {
     const user = await this.authService.validateUser(email, password);
     if (!user) throw new UnauthorizedException('Invalid credentials');
@@ -38,10 +38,10 @@ export class AuthResolver {
 
   @Mutation(() => String)
   async refreshToken(
-    @Req() req: express.Request,
-    @Res({ passthrough: true }) res: express.Response,
+    @Context('req') req: express.Request,
+    @Context('res') res: express.Response,
   ): Promise<string> {
-    const token = req.cookies?.['refresh_token'];
+    const token = req.cookies?.['refresh_token'] as string | undefined;
     if (!token) throw new UnauthorizedException('No refresh token');
 
     const payload = this.authService.verifyRefreshToken(token);
@@ -56,7 +56,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  logout(@Res({ passthrough: true }) res: express.Response): boolean {
+  logout(@Context('res') res: express.Response): boolean {
     res.clearCookie('refresh_token');
     return true;
   }

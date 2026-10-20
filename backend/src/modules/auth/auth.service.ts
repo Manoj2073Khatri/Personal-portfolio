@@ -5,6 +5,7 @@ import * as bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service';
 import { User } from '@prisma/client';
 import { Response } from 'express';
+import { JwtPayload } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -51,10 +52,10 @@ export class AuthService {
   /**
    * Verify the refresh token structure and signature.
    */
-  verifyRefreshToken(token: string): any {
+  verifyRefreshToken(token: string): JwtPayload {
     try {
-      return this.jwtService.verify(token);
-    } catch (err) {
+      return this.jwtService.verify<JwtPayload>(token);
+    } catch {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
   }
@@ -62,7 +63,10 @@ export class AuthService {
   /**
    * Check if the refresh token matches the stored hashed token.
    */
-  async validateRefreshToken(userId: string, refreshToken: string): Promise<User | null> {
+  async validateRefreshToken(
+    userId: string,
+    refreshToken: string,
+  ): Promise<User | null> {
     const user = await this.userService.findById(userId);
     if (!user || !user.refreshToken) return null;
 

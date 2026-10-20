@@ -6,13 +6,16 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { AuthResolver } from './auth.resolver';
+import { getJwtSecret } from './auth.config';
 
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: 'JWT_SECRET', // use process.env.JWT_SECRET ideally
-      signOptions: { expiresIn: '1h' },
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: getJwtSecret(),
+        signOptions: { expiresIn: '1h' },
+      }),
     }),
     UserModule,
   ],

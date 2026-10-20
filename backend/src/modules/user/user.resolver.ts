@@ -6,6 +6,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { UseGuards } from '@nestjs/common';
 import { Role } from '@prisma/client';
+import type { AuthRequest } from '../auth/auth.types';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,7 +21,7 @@ export class UserResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
-  async getProfile(@Context('req') req: any) {
+  async getProfile(@Context('req') req: AuthRequest) {
     return this.userService.findByEmail(req.user.email);
   }
 }
